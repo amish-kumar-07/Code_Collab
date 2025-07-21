@@ -1,15 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 function Page() {
   const [roomId, setRoomId] = useState('');
+  const [socket, setSocket] = useState<WebSocket>();
   const router = useRouter();
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8080');
+    
+    ws.onopen = () => console.log('WebSocket connected');
+    setSocket(ws);
+    return () => {
+      ws.close();
+    };
+  }, []); 
+
 
   const handleJoin = () => {
     if (roomId.trim()) {
-      router.push(`/${roomId}`); 
+      if (socket?.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ type: 'join', roomId }));
+        router.push(`/${roomId}`);
+      } else {
+        console.warn('WebSocket is not open.');
+      }
     }
   };
 
