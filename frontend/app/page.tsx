@@ -22,7 +22,8 @@ function Page() {
   const handleJoin = () => {
     if (roomId.trim()) {
       if (socket?.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({ type: 'join', roomId }));
+        const randomId = Math.floor(Math.random()*50);
+        socket.send(JSON.stringify({ type: 'join', roomId , randomId}));
         router.push(`/${roomId}`);
       } else {
         console.warn('WebSocket is not open.');

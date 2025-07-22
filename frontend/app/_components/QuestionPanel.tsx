@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import { useEffect } from 'react';
 
 interface Example {
   input: string;
@@ -24,6 +25,9 @@ interface ProblemPanelProps {
 }
 
 export default function ProblemPanel({ question }: ProblemPanelProps) {
+  useEffect(() => {
+    
+  }, [question]);
   return (
     <div className="col-span-3 bg-white rounded-lg shadow-md p-6 overflow-y-auto">
       <div className="mb-6">

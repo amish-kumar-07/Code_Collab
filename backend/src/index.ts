@@ -1,5 +1,6 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import express from 'express';
+import routes from './routes/endpoint';
 
 const app = express();
 const wss = new WebSocketServer({ port: 8080 });
@@ -7,6 +8,9 @@ const wss = new WebSocketServer({ port: 8080 });
 let Users: WebSocket[] = [];
 let UserRoom = new Map<string, WebSocket[]>();
 let socketCount = 0;
+
+app.use(express.json());
+app.use('/', routes);
 
 wss.on("connection", (socket) => {
     socketCount++;
@@ -17,6 +21,7 @@ wss.on("connection", (socket) => {
         console.log("User message:", message);
     });
 });
+
 
 
 app.listen(3001,()=>{
