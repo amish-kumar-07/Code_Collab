@@ -10,10 +10,8 @@ router.post('/getQuestion', async (req, res) => {
     try {
         const body = req.body; // ✅ Get id from request body
         const questionId = body?.id;
-        console.log(questionId);
         // ✅ If questionId is number (e.g., 0), this will work
         const question = question_1.questions[questionId];
-        console.log(question);
         if (!question) {
             return res.status(404).json({ message: 'Question not found' });
         }
